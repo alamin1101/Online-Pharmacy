@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a style="color: azure" class="navbar-brand" href="/"><em> Medicine Shop</em>       </a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li ><a href="/">Home</a></li>
+            <li><a href="/admin"><i class="fa fa-home"></i>Admin</a></li>
+            <li><a href="/user">Consumer</a></li>
+            <li><a href="/about">About</a></li>
+        </ul>
+        <ul sec:authorize="!isAuthenticated()" class="nav navbar-nav navbar-right">
+            <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+
+    </div>
+</nav>
+
+
+<div class="signup-form">
+    <form action="/login" method="post" class="form-horizontal">
+        <div class="col-xs-8 col-xs-offset-4">
+            <h2 style="color: deepskyblue"><em>Log into Your Account</em></h2>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-4">Username</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" name="username" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-4">Password</label>
+            <div class="col-xs-8">
+                <input type="password" class="form-control" name="password"  required>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-8 col-xs-offset-4">
+                <button type="submit" class="btn btn-primary btn-lg">Login</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

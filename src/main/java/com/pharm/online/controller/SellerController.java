@@ -1,4 +1,4 @@
 package com.pharm.online.controller;
 
-public class CountermenController {
+public class SellerController {
 }
