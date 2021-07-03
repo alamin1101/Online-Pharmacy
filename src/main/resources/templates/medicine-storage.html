@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Home</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <a style="color: azure" class="navbar-brand" href="#">Medicine Shop  </a>
+        </div>
+
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li ><a href="/add-new-medicine">Add New Medicine</a></li>
+
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Medicine Storage
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/medicine-category">Medicine Category</a></li>
+                    <li><a href="/medicine-storage">All Medicine</a></li>
+                </ul>
+            </li>
+            <li ><a href="/admin/userslist">Consumers List</a></li>
+
+            <li><a href="/admin/medicine/borrowers">Consumers Request</a></li>
+            <li  class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ordered Medicine
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li ><a href="/admin/medicine/orderlist">Ordered list </a></li>
+                    <li><a href="/admin/medicine/order">New Order</a></li>
+                </ul>
+            </li>
+
+        </ul>
+
+        <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="glyphicon glyphicon-user"  sec:authentication="name"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/profile/settings">Settings</a></li>
+                    <li><a href="/logout">Log Out</a></li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+<div class="container">
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Medicine Storege:</h2>
+    <div style="text-align: right;margin-top: 15px;width: available">
+        <form action="/medicine-storage">
+            <input type="text" placeholder="search..." name="s">
+            <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
+        </form>
+    </div>
+
+    <table class="table table-bordered table-striped" style="margin-top:7px">
+        <thead>
+        <tr>
+            <th>Medicine Name</th>
+            <th>Company Name</th>
+            <th>Category:</th>
+            <th>Price Per Tab/Cap</th>
+            <th>Quantity</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="element : ${medicinelist}">
+
+
+            <td> [[${element.medicineId}]]</td>
+            <td> [[${element.medicineName}]]</td>
+            <td> [[${element.company}]]</td>
+            <td> [[${element.category}]]</td>
+            <td> [[${element.price}]]</td>
+            <td> [[${element.quantity}]]</td>
+
+            <td th:if="${element.quantity>0}" style="text-align:center ">
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a th:href="@{/admin/medicine/update(medicineId=${element.medicineId})}" class="btn btn-primary">Update</a>
+                    <a th:href="@{/admin/medicine/delete(medicineId=${element.medicineId})}" class="btn btn-danger">Delete</a>
+                </div>
+            </td>
+            <td th:if="${element.quantity==0}" style="text-align: center">
+                <button type="button" class="btn btn-primary" disabled>Unavailable</button>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>

@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -55,7 +54,7 @@ public class HomeController {
     {
         model.addAttribute("message", null);
         model.addAttribute("user",new User());
-        return "regestration-form";
+        return "signup-form";
     }
 
     @PostMapping("/signup-success")
@@ -64,11 +63,11 @@ public class HomeController {
 
         if(userRepository.countUsersByUsername(user.getUsername())==1) {
             model.addAttribute("message", "username already exist...");
-            return "regestration-form";
+            return "signup-form";
         }
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             model.addAttribute("message", "password not matched...");
-            return "regestration-form";
+            return "signup-form";
         }
         String pass = passwordEncoder.encode(user.getPassword());
         user.setPassword(pass);
@@ -108,7 +107,7 @@ public class HomeController {
         return "profile_settings";
     }
 
-    @RequestMapping("/profile/update")
+    @RequestMapping("/profile-update")
     public String profileUpdate(@Valid User user,Principal principal,Model model)
     {
         if(!principal.getName().equals(user.getUsername())) {
