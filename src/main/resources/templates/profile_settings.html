@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:c="">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
+    <title>Profile Settings </title>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
+
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a style="color: azure" class="navbar-brand" href="/"><em>Medicine Shop </em>       </a>
+            <a style="color: azure;font-size: 30px" class="navbar-brand" href="/"><b><em>Medicine Shop </em></b>       </a>
         </div>
         <ul class="nav navbar-nav">
             <li ><a href="/">Home</a></li>
             <li><a href="/admin"><i class="fa fa-home"></i>Admin</a></li>
-            <li><a href="/user">Consumer</a></li>
+            <li><a href="/consumer">Consumer</a></li>
             <li><a href="/about">About</a></li>
         </ul>
         <ul sec:authorize="!isAuthenticated()" class="nav navbar-nav navbar-right">
@@ -31,14 +31,15 @@
     </div>
 </nav>
 
+
 <div class="signup-form">
-    <form action="/signup-success" th:object="${user}" method="post" class="form-horizontal">
+    <form action="/profile-update" th:object="${user}" method="post" class="form-horizontal">
         <div> <a th:if="${message} != null">
             <script> window.alert('[[${message}]]')</script>
         </a>
         </div>
         <div class="col-xs-8 col-xs-offset-4">
-            <h2 style="color: rebeccapurple; font-family: Aharoni;text-align: center">Profile Settings</h2>
+            <h2 style="color: rebeccapurple">Profile Settings</h2>
 
         </div>
 

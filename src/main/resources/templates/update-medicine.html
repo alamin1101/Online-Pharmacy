@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Add Medicine </title>
+    <title>Update Medicine </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -64,9 +64,9 @@
 </nav>
 
 <div class="container">
-    <h2 style="margin-top: 15px; text-align: center;color:blueviolet">Add New Medicine :</h2>
+    <h2 style="margin-top: 15px; text-align: center;color:blueviolet">Update Medicine :</h2>
 
-    <form th:action="@{/add-new-medicine}" th:object="${medicine}" method="post" class="was-validated" style="color: blue">
+    <form th:action="@{/update-medicine}" th:object="${medicine}" method="post" class="was-validated" style="color: blue">
 
         <input type="hidden" name="medicineId" th:value="${medicine.medicineId}">
 
@@ -97,7 +97,7 @@
 
 
         <div class="form-group">
-            <label for="price">Price Per Pill</label>
+            <label for="price">Price Per Pill/Tab</label>
             <input type="text" class="form-control" id="price" placeholder="Price" name="price"
                    th:field="*{price}" required>
             <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
@@ -112,7 +112,7 @@
         </div>
 
         <div>
-            <button type="submit" class="btn btn-success">Save</button>
+            <button type="submit" class="btn btn-success">Update</button>
             <a href="add-new-medicine" class="btn btn-danger">Cancel</a>
         </div>
     </form>

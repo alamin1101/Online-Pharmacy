@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Add Medicine </title>
+    <title>Medicine Order</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
-
 
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -64,57 +63,41 @@
 </nav>
 
 <div class="container">
-    <h2 style="margin-top: 15px; text-align: center;color:blueviolet">Add New Medicine :</h2>
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Medicine Order</h2>
 
-    <form th:action="@{/add-new-medicine}" th:object="${medicine}" method="post" class="was-validated" style="color: blue">
-
-        <input type="hidden" name="medicineId" th:value="${medicine.medicineId}">
-
-        <div class="form-group">
-            <label for="title">Medicine Name</label>
-            <input id="title" type="text" class="form-control" placeholder="Medicine Name" name="medicineName" th:field="*{medicineName}"
-                   required>
-            <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
-            <p class="error-message" th:if="${#fields.hasErrors('medicineName')}" th:errors="*{medicineName}"></p>
-        </div>
-
-        <div class="form-group">
-            <label for="category">Category</label>
-            <input type="text" class="form-control" id="category" placeholder=" Medicine Category" name="category"
-                   th:field="*{category}" required>
-            <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
-            <p class="error-message" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></p>
-        </div>
+    <form th:action="@{/medicine-order}" modelAttribute="medicineorder" method="post" class="was-validated" style="color: blue">
 
 
         <div class="form-group">
-            <label for="company"> Company Name</label>
-            <input type="text" class="form-control" id="company" placeholder="Company Name" name="company"
-                   th:field="*{company}" required>
-            <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
-            <p class="error-message" th:if="${#fields.hasErrors('company')}" th:errors="*{company}"></p>
+            <label for="medicineName">Medicine Name:</label>
+            <input id="medicineName" type="text" class="form-control" placeholder="Enter Medicine Name" name="medicineName" required>
         </div>
-
 
         <div class="form-group">
-            <label for="price">Price Per Pill</label>
-            <input type="text" class="form-control" id="price" placeholder="Price" name="price"
-                   th:field="*{price}" required>
-            <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
-            <p class="error-message" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
-        </div>
-        <div class="form-group">
-            <label for="quantity">Quantity</label>
-            <input type="text" class="form-control" id="quantity" placeholder="Quantity" name="quantity"
-                   th:field="*{quantity}" required>
-            <!--            <div class="invalid-feedback">Please fill out this field.</div>-->
-            <p class="error-message" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></p>
+            <label for="category">Category:</label>
+            <input type="text" class="form-control" id="category" placeholder="Enter Medicine category" name="category"required>
         </div>
 
-        <div>
-            <button type="submit" class="btn btn-success">Save</button>
-            <a href="add-new-medicine" class="btn btn-danger">Cancel</a>
+        <div class="form-group">
+            <label for="company">Company Name:</label>
+            <input type="text" class="form-control" id="company" placeholder="Enter Company Name" name="company" required>
         </div>
+        <div class="form-group">
+            <label for="date">Date of Ordered:</label>
+            <input type="date" class="form-control" id="date" placeholder="Enter order date" name="orderedDate" required>
+        </div>
+
+        <div class="form-group">
+            <label for="date1">Date of Arival:</label>
+            <input type="date" class="form-control" id="date1" placeholder="Enter arival date" name="arivalDate" required>
+        </div>
+
+        <div class="form-group">
+            <label for="q">Quantity:</label>
+            <input type="text" class="form-control" id="q" placeholder="Enter quantity" name="quantity" required>
+        </div>
+        <button type="submit" class="btn btn-success" style="width: 200px">Medicine Order</button>
+
     </form>
 </div>
 

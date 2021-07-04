@@ -32,7 +32,7 @@ public class AdminServiceImplementation implements AdminService{
 
     @Override
     public List<Medicine> findMedicineByCatagory(String catagory) {
-        return null;
+        return medicineRepository.findAllMedicineByCategory(catagory);
     }
 
     @Override

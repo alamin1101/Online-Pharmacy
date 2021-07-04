@@ -110,10 +110,6 @@ public class HomeController {
     @RequestMapping("/profile-update")
     public String profileUpdate(@Valid User user,Principal principal,Model model)
     {
-        if(!principal.getName().equals(user.getUsername())) {
-            // model.addAttribute("name", "username is already exist");
-            return "profile_settings";
-        }
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             return "profile_settings";
         }
@@ -121,9 +117,9 @@ public class HomeController {
         user.setPassword(pass);
         userRepository.save(user);
         if(user.getRole().equals("ROLE_ADMIN"))
-            return "redirect:/home";
+            return "admin-home";
         else
-            return "redirect:/home";
+            return "consumer-home";
     }
 
 }

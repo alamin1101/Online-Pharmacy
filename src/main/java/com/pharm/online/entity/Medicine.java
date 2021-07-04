@@ -22,7 +22,7 @@ public class Medicine {
     private String category;
     private String company;
     private String price;
-    private String quantity;
+    private long quantity;
 
 
 
@@ -31,5 +31,10 @@ public class Medicine {
         this.medicineName = medicineName;
         this.category = category;
         this.company = company;
+    }
+
+    public Medicine(String category, long quantity) {
+        this.category = category;
+        this.quantity = quantity;
     }
 }

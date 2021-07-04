@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Medicine Storage</title>
+    <title>Admin Home</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -35,10 +35,10 @@
 
             <li><a href="/consumers-request">Consumers Request</a></li>
             <li  class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Medicine Order
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ordered Medicine
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li ><a href="/medicine-order-list">Ordered list </a></li>
+                    <li ><a href="/medicine-orderlist">Ordered list </a></li>
                     <li><a href="/medicine-order">New Order</a></li>
                 </ul>
             </li>
@@ -62,46 +62,34 @@
     </div>
 </nav>
 
-
 <div class="container">
-    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Medicine Storege:</h2>
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Medicine Storage </h2>
     <div style="text-align: right;margin-top: 15px;width: available">
-        <form action="/medicine-storage">
+        <form action="/medicine-category">
             <input type="text" placeholder="search..." name="s">
             <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
         </form>
     </div>
 
-    <table class="table table-bordered table-striped" style="margin-top:7px;color: black">
+    <table class="table table-bordered table-striped" style="margin-top:10px">
         <thead>
         <tr>
-            <th>Medicine Name</th>
-            <th>Company Name</th>
             <th>Category:</th>
-            <th>Price Per Tab/Cap</th>
             <th>Quantity</th>
-            <th>Action</th>
+            <th>See All</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="element : ${medicinelist}">
 
-            <td> [[${element.medicineName}]]</td>
-            <td> [[${element.company}]]</td>
             <td> [[${element.category}]]</td>
-            <td> [[${element.price}]]</td>
-            <td> [[${element.quantity}]]</td>
+            <th style="text-align: center;color: fuchsia">  [[${element.quantity}]]</th>
 
             <td th:if="${element.quantity!=0}" style="text-align:center ">
                 <div sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a th:href="@{/update-medicine(medicineId=${element.medicineId})}" class="btn btn-primary">Update</a>
-                    <a th:href="@{/delete-medicine(medicineId=${element.medicineId})}" class="btn btn-danger">Delete</a>
+                    <a th:href="@{/medicine-category-all(category=${element.category})}" class="btn btn-primary">View Medicines</a>
                 </div>
             </td>
-            <td th:if="${element.quantity==0}" style="text-align: center">
-                <button type="button" class="btn btn-primary" disabled>Unavailable</button>
-            </td>
-
         </tr>
         </tbody>
     </table>

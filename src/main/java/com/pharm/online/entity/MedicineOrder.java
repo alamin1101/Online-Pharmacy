@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 
 @Entity
-public class OrderMedicine {
+public class MedicineOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_order_seq")
@@ -23,7 +23,7 @@ public class OrderMedicine {
     private String arivalDate;
     private long quantity;
 
-    public OrderMedicine(int orderId, String medicineName, String category, String company, String orderedDate, String arivalDate, long quantity) {
+    public MedicineOrder(int orderId, String medicineName, String category, String company, String orderedDate, String arivalDate, long quantity) {
         this.orderId = orderId;
         this.medicineName = medicineName;
         this.category = category;

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Medicine Storage</title>
+    <title>Admin Home</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -61,45 +61,37 @@
 
     </div>
 </nav>
-
-
 <div class="container">
-    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Medicine Storege:</h2>
-    <div style="text-align: right;margin-top: 15px;width: available">
-        <form action="/medicine-storage">
-            <input type="text" placeholder="search..." name="s">
-            <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
-        </form>
-    </div>
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet"> Mmedicine OrderList:</h2>
 
-    <table class="table table-bordered table-striped" style="margin-top:7px;color: black">
+    <table class="table table-bordered table-striped" style="margin-top:10px">
         <thead>
         <tr>
-            <th>Medicine Name</th>
-            <th>Company Name</th>
+            <th>Order Id:</th>
+            <th>Mmedicine Name:</th>
             <th>Category:</th>
-            <th>Price Per Tab/Cap</th>
-            <th>Quantity</th>
+            <th>Medicine Company:</th>
+            <th>Date of Ordered</th>
+            <th>Date of Arival</th>
+            <th>Mmedicine Quantity</th>
             <th>Action</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="element : ${medicinelist}">
+        <tr th:each="element : ${orderlist}">
 
+            <td> [[${element.orderId}]]</td>
             <td> [[${element.medicineName}]]</td>
-            <td> [[${element.company}]]</td>
             <td> [[${element.category}]]</td>
-            <td> [[${element.price}]]</td>
+            <td> [[${element.company}]]</td>
+            <td> [[${element.orderedDate}]]</td>
+            <td> [[${element.arivalDate}]]</td>
             <td> [[${element.quantity}]]</td>
 
-            <td th:if="${element.quantity!=0}" style="text-align:center ">
+            <td style="text-align:center ">
                 <div sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a th:href="@{/update-medicine(medicineId=${element.medicineId})}" class="btn btn-primary">Update</a>
-                    <a th:href="@{/delete-medicine(medicineId=${element.medicineId})}" class="btn btn-danger">Delete</a>
+                    <a th:href="@{/medicine-order-delete(orderId=${element.orderId})}" class="btn btn-danger">Delete Order</a>
                 </div>
-            </td>
-            <td th:if="${element.quantity==0}" style="text-align: center">
-                <button type="button" class="btn btn-primary" disabled>Unavailable</button>
             </td>
 
         </tr>

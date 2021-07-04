@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Medicine Storage</title>
+    <title>Users List</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -62,44 +62,37 @@
     </div>
 </nav>
 
-
 <div class="container">
-    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Medicine Storege:</h2>
-    <div style="text-align: right;margin-top: 15px;width: available">
-        <form action="/medicine-storage">
-            <input type="text" placeholder="search..." name="s">
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Users Information :</h2>
+
+    <div style="text-align: right;margin-top: 10px;width: border-box">
+        <form action="/consumerslist">
+            <input type="text" placeholder="Search ..." name="s">
             <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
         </form>
     </div>
-
-    <table class="table table-bordered table-striped" style="margin-top:7px;color: black">
+    <table class="table table-bordered table-striped" style="margin-top:10px">
         <thead>
         <tr>
-            <th>Medicine Name</th>
-            <th>Company Name</th>
-            <th>Category:</th>
-            <th>Price Per Tab/Cap</th>
-            <th>Quantity</th>
-            <th>Action</th>
+            <th>Username:</th>
+            <th>Full Name:</th>
+            <th>Email:</th>
+            <th>Phone No:</th>
+            <th>Address:</th>
+            <th>Contact</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="element : ${medicinelist}">
 
-            <td> [[${element.medicineName}]]</td>
-            <td> [[${element.company}]]</td>
-            <td> [[${element.category}]]</td>
-            <td> [[${element.price}]]</td>
-            <td> [[${element.quantity}]]</td>
+        <tr  th:each="element : ${userslist}">
+            <td> [[${element.username}]]</td>
+            <td> [[${element.firstname}]] [[${element.lastname}]] </td>
+            <td> [[${element.email}]]</td>
+            <td> [[${element.phone}]]</td>
+            <td> [[${element.address}]]</td>
 
-            <td th:if="${element.quantity!=0}" style="text-align:center ">
-                <div sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a th:href="@{/update-medicine(medicineId=${element.medicineId})}" class="btn btn-primary">Update</a>
-                    <a th:href="@{/delete-medicine(medicineId=${element.medicineId})}" class="btn btn-danger">Delete</a>
-                </div>
-            </td>
-            <td th:if="${element.quantity==0}" style="text-align: center">
-                <button type="button" class="btn btn-primary" disabled>Unavailable</button>
+            <td  sec:authorize="isAuthenticated()" style="text-align: center;width: fit-content">
+                <a href="/contact" class="btn btn-warning">Contact</a>
             </td>
 
         </tr>

@@ -20,28 +20,11 @@
         </div>
 
         <ul class="nav navbar-nav">
-            <li class="active"><a href="/admin">Home</a></li>
-            <li ><a href="/add-new-medicine">Add New Medicine</a></li>
 
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Medicine Storage
-                    <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="/medicine-category">Medicine Category</a></li>
-                    <li><a href="/medicine-storage">All Medicine</a></li>
-                </ul>
-            </li>
-            <li ><a href="/consumerslist">Consumers List</a></li>
-
-            <li><a href="/consumers-request">Consumers Request</a></li>
-            <li  class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Medicine Order
-                    <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li ><a href="/medicine-order-list">Ordered list </a></li>
-                    <li><a href="/medicine-order">New Order</a></li>
-                </ul>
-            </li>
+            <li class="active"><a href="/consumer">Home</a></li>
+            <li><a href="/medicine-storage-all">Medicine Storage</a></li>
+            <li><a href="/consumer-order-medicine">Order Medicine</a></li>
+            <li><a href="/admin-send-message">Admin Message</a></li>
 
         </ul>
 
@@ -63,6 +46,7 @@
 </nav>
 
 
+
 <div class="container">
     <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Medicine Storege:</h2>
     <div style="text-align: right;margin-top: 15px;width: available">
@@ -80,7 +64,7 @@
             <th>Category:</th>
             <th>Price Per Tab/Cap</th>
             <th>Quantity</th>
-            <th>Action</th>
+            <th>Available</th>
         </tr>
         </thead>
         <tbody>
@@ -93,15 +77,13 @@
             <td> [[${element.quantity}]]</td>
 
             <td th:if="${element.quantity!=0}" style="text-align:center ">
-                <div sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a th:href="@{/update-medicine(medicineId=${element.medicineId})}" class="btn btn-primary">Update</a>
-                    <a th:href="@{/delete-medicine(medicineId=${element.medicineId})}" class="btn btn-danger">Delete</a>
+                <div sec:authorize="hasRole('ROLE_USER')">
+                    <h6>Available</h6>
                 </div>
             </td>
             <td th:if="${element.quantity==0}" style="text-align: center">
-                <button type="button" class="btn btn-primary" disabled>Unavailable</button>
+                <h6>Not Available</h6>
             </td>
-
         </tr>
         </tbody>
     </table>

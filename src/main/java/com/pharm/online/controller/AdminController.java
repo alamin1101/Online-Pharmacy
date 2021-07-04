@@ -1,20 +1,21 @@
 package com.pharm.online.controller;
 
 import com.pharm.online.entity.Medicine;
+import com.pharm.online.entity.MedicineOrder;
+import com.pharm.online.entity.User;
+import com.pharm.online.repository.MedicineOrderRepository;
 import com.pharm.online.repository.MedicineRepository;
-import com.pharm.online.repository.OrderMedicineRepository;
 import com.pharm.online.repository.UserRepository;
 import com.pharm.online.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 @Controller
 public class AdminController {
@@ -29,14 +30,17 @@ public class AdminController {
     private MedicineRepository medicineRepository;
 
     @Autowired
-    private OrderMedicineRepository orderMedicineRepository;
+    private MedicineOrderRepository medicineOrderRepository;
     
 
     @RequestMapping("/admin")
     public String admin(Model model, Principal principal)
     {
-        model.addAttribute("users",userRepository.count());
+        User user=userRepository.findByUsername(principal.getName());
+        if(user.getRole().equals("ROLE_ADMIN"))
           return "admin-home";
+        else
+            return "consumer-home";
     }
 
 
@@ -60,12 +64,12 @@ public class AdminController {
 
 
 //
-//    @RequestMapping("/medicine-category")
-//    public String adminmedicineCatagory(Model model, @RequestParam(required= false) String s)
-//    {
-//        model.addAttribute("medicinelist",medicineRepository.findAllmedicineNumbersByCategory(s));
-//        return "medicine_category";
-//    }
+    @RequestMapping("/medicine-category")
+    public String adminmedicineCatagory(Model model, @RequestParam(required= false) String s)
+    {
+        model.addAttribute("medicinelist",medicineRepository.findMedicinesByCategory(s));
+        return "medicine-category";
+    }
 //
 //
 //    @GetMapping("/admin/medicine/title")
@@ -83,34 +87,34 @@ public class AdminController {
 //        return "medicineself";
 //    }
 //
-//    @RequestMapping("/medicine-category/all")
-//    public String adminmedicineCatagory(@RequestParam String category,Model model)
-//    {
-//        model.addAttribute("medicinelist",medicineRepository.findByCategory(category));
-//        return "medicineself";
-//    }
+    @RequestMapping("/medicine-category-all")
+    public String adminmedicineCatagory(@RequestParam String category,Model model)
+    {
+        model.addAttribute("medicinelist",adminService.findMedicineByCatagory(category));
+        return "medicine-storage";
+    }
 //
 //
-//    @GetMapping("/admin/medicine/update")
-//    public String adminmedicineUpdate(@RequestParam int medicineId, Model model){
-//        model.addAttribute("medicine", adminService.getmedicinetById(medicineId));
-//        return "medicine_update";
-//    }
-//
-//
-//    @PostMapping("/admin/medicine/update")
-//    public String adminUpdatesuccess(@Valid medicine medicine)
-//    {
-//
-//        adminService.addmedicine(medicine);
-//        return "redirect:/medicine-category";
-//    }
-//
-//    @RequestMapping("/admin/medicine/delete")
-//    public String adminmedicineDelete(@RequestParam int medicineId){
-//        adminService.deletemedicineById(medicineId);
-//        return "redirect:/medicine-category";
-//    }
+    @GetMapping("/update-medicine")
+    public String adminmedicineUpdate(@RequestParam int medicineId, Model model){
+        model.addAttribute("medicine", medicineRepository.findById(medicineId).get());
+        return "update-medicine";
+    }
+
+
+    @PostMapping("/update-medicine")
+    public String adminUpdatesuccess(@Valid Medicine medicine)
+    {
+
+        adminService.addNewMedicine(medicine);
+        return "redirect:/medicine-storage";
+    }
+
+    @RequestMapping("/delete-medicine")
+    public String adminmedicineDelete(@RequestParam int medicineId){
+        adminService.deleteMedicineById(medicineId);
+        return "redirect:/medicine-storage";
+    }
 //
     @RequestMapping("/medicine-storage")
     public String medicineStorage(Model model,@RequestParam(required = false) String s){
@@ -118,13 +122,13 @@ public class AdminController {
         return "medicine-storage";
     }
 //
-//    @RequestMapping("admin/userslist")
-//    public String adminUserslist(Model model,@RequestParam(required = false) String s) {
-//        AppUser appUser=new AppUser();
-//        model.addAttribute("userslist", userRepository.findAllUsers(s));
-//        return "list_of_users";
-//    }
-//
+    @RequestMapping("/consumerslist")
+    public String adminUserslist(Model model,@RequestParam(required = false) String s) {
+        User appUser=new User();
+        model.addAttribute("userslist", userRepository.findAllUsers(s));
+        return "consumers-list";
+    }
+
 //
 //    @RequestMapping("/admin/search")
 //    public String userSearch(@RequestParam String username, Model model)
@@ -135,38 +139,38 @@ public class AdminController {
 //    }
 //
 //
-//    @GetMapping("/admin/medicine/order")
-//    public String adminmedicineOrder1()
-//    {
-//        return "medicine_order";
-//    }
+    @GetMapping("/medicine-order")
+    public String adminmedicineOrder1()
+    {
+        return "medicine-order";
+    }
+
+
+    @PostMapping("/medicine-order")
+    public String adminmedicineOrder(@ModelAttribute MedicineOrder medicineorder) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        if (format.parse(medicineorder.getArivalDate()).before(format.parse(medicineorder.getOrderedDate()))) {
+            return "medicine-order";
+        }
+        medicineOrderRepository.save(medicineorder);
+        return "redirect:/medicine-order-list";
+    }
+//
+    @GetMapping("/medicine-order-list")
+    public String adminmedicineOrderlist(Model model)
+    {
+        model.addAttribute("orderlist",medicineOrderRepository.findAll());
+        return "medicine-order-list";
+    }
 //
 //
-//    @PostMapping("/admin/medicine/order")
-//    public String adminmedicineOrder(@ModelAttribute medicineOrder medicineorder) throws ParseException {
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//        if (format.parse(medicineorder.getArivalDate()).before(format.parse(medicineorder.getOrderedDate()))) {
-//            return "medicine_order";
-//        }
-//        medicineOrderRepository.save(medicineorder);
-//        return "redirect:/admin/medicine/orderlist";
-//    }
-//
-//    @GetMapping("/admin/medicine/orderlist")
-//    public String adminmedicineOrderlist(Model model)
-//    {
-//        model.addAttribute("orderlist",medicineOrderRepository.findAll());
-//        return "medicine_orderlist";
-//    }
-//
-//
-//    @RequestMapping("/admin/medicine/order/delete")
-//    public String adminmedicineOrderDelete(@RequestParam int orderId)
-//    {
-//        medicineOrderRepository.deleteById(orderId);
-//        return "redirect:/admin/medicine/orderlist";
-//
-//    }
+    @RequestMapping("/medicine-order-delete")
+    public String adminmedicineOrderDelete(@RequestParam int orderId)
+    {
+        medicineOrderRepository.deleteById(orderId);
+        return "redirect:/medicine-order-list";
+
+    }
 //
 //    @GetMapping("/admin/user/borrow/medicine")
 //    public String usermedicineBorrow(@RequestParam int medicineId, Model model){
